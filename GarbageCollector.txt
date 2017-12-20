@@ -1,0 +1,32 @@
+Java has four garbage collector and each one has its own advantage and disadvantage:
+1.The Serial Collector
+2.The parallel / Throughput collector
+3.The CMS collector
+4.G1 collector
+
+Serial collector
+It is the simplest one which is designed for single threaded environments and for the small heaps
+It freezes all application threads whenever its working
+To use this collector use: -XX:+UseSerialGCJVM argument
+
+Parallel / Throughput collector
+It is the default collector used by JVM
+It uses the multiple thread to scan through and compact the heap
+Best suited for apps that can tolerate application pauses and are trying to optimize for lower CPU overhead caused by the collector
+Disadvantage:
+It stops the application threads when performing either a minor or full GC Collection.
+
+CMS (concurrent-mark-sweep) Collector
+It uses the multiple thread (concurrent) to scan through the heap for unused objects (mark) that can be recycled(sweep).
+This algorithm enter the STW (Stop The World mode) in two cases
+1. when initializing the intial marking of roots
+2. when applicaiton has changed teh stste of the heap while running concurrently
+Disadvantage:
+Uses more CPU inorder to provide the continuous throughput by using the multiple threads to perform scanning and collection
+Used in:
+when the user want to allocate more CPU to avoid application pauses and assuming that the heap size is less than 4GB
+
+G1 collector
+It supports heap which has size > 4GB
+It was geared towards the regions that contains the most garbage objects first.
+This collector has the advantage of compacting the heap on-the-go where CMS only does it during the full STW collections
